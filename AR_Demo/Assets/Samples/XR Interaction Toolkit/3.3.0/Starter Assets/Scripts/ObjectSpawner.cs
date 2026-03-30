@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using UnityEngine.UIElements;
 using UnityEngine.XR.Interaction.Toolkit.Utilities;
 
 namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
@@ -38,6 +40,8 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             get => m_ObjectPrefabs;
             set => m_ObjectPrefabs = value;
         }
+
+        [SerializeField] Material[] materials;
 
         [SerializeField]
         [Tooltip("Optional prefab to spawn for each spawned object. Use a prefab with the Destroy Self component to make " +
@@ -222,6 +226,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
 
             var objectIndex = isSpawnOptionRandomized ? Random.Range(0, m_ObjectPrefabs.Count) : m_SpawnOptionIndex;
             var newObject = Instantiate(m_ObjectPrefabs[objectIndex]);
+            newObject.GetComponentInChildren<MeshRenderer>().material = materials[Random.Range(0, materials.Length)];
             if (m_SpawnAsChildren)
                 newObject.transform.parent = transform;
 
